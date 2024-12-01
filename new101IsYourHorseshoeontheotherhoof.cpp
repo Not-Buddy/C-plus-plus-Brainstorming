@@ -1,4 +1,5 @@
 #include <iostream>
+#include <set>
 #include <string>
 #include <cctype>
 #include <vector>
@@ -30,15 +31,25 @@ void VectorDisplay(std::vector <int> const vec1)
   }
   cout<<"}"<<endl;
 }
+
 int main()
 {
-  int testcases{};
-  cin>>testcases;
-  cin.ignore();
-  for(int i{0};i<testcases;i++)
-  {
+    std::vector <int> Input{};
+    int max{};
+    std::set<int> mySet;
+    std::string InputLine{};
+    getline(cin,InputLine);
+    vectormaker(Input,InputLine);
+    for(int i{0};i<4;i++)
+    {
+      mySet.insert(Input[i]);
+    }
+   cout<<4-mySet.size()<<endl; 
+    
 
-  }
+
+
+
 
   return 0;
 }

@@ -32,13 +32,24 @@ void VectorDisplay(std::vector <int> const vec1)
 }
 int main()
 {
-  int testcases{};
+  int testcases{},totans{};
   cin>>testcases;
   cin.ignore();
   for(int i{0};i<testcases;i++)
   {
-
-  }
-
+    vector <int> singleline{};
+    std::string InputLine{};
+    getline(cin,InputLine);
+    vectormaker(singleline,InputLine);
+    int count=0;
+    for(int j{0};j<3;j++)
+    {
+      if(singleline[j]==1)
+        count++;
+    }
+    if(count>=2)
+     totans++;
+}
+cout<<totans<<endl;
   return 0;
 }
