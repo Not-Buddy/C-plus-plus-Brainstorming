@@ -1,44 +1,23 @@
 #include <iostream>
 #include <string>
-#include <cctype>
-#include <vector>
-#include <algorithm>
-typedef unsigned long long ll;
-using namespace std;
-
-void vectormaker(std::vector <int>&vec1,std::string input)
-{
-  std::string digit{};
-  for(int i{0};i<input.size();i++)
-  {
-    while(std::isdigit(input[i]))
-    {
-      digit.push_back(input[i]);
-      i++;
-    }
-    vec1.push_back(std::stoi(digit));
-
-    digit.clear();
-  }
-}
-void VectorDisplay(std::vector <int> const vec1)
-{
-  cout<<"{ ";
-  for(int i:vec1)
-  {
-    cout<<i<<" ";
-  }
-  cout<<"}"<<endl;
-}
+#include <set>
 int main()
 {
-  int testcases{};
-  cin>>testcases;
-  cin.ignore();
-  for(int i{0};i<testcases;i++)
-  {
-
-  }
-
+    std::string Input{};
+    std::set<char> Ans{};
+    std::getline(std::cin,Input);
+    for(int i{0};i<Input.size();i++)
+    {
+      //std::cout<<Input[i]<<std::endl;
+      Ans.insert(Input[i]);
+    }
+    if(Ans.size()%2==0)
+    {
+      std::cout<<"CHAT WITH HER!"<<std::endl;
+    }
+    else 
+    {
+      std::cout<<"IGNORE HIM!"<<std::endl;
+    }
   return 0;
 }
