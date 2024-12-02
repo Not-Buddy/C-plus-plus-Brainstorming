@@ -6,26 +6,14 @@
 typedef unsigned long long ll;
 using namespace std;
 
-void countAPair(int n, int &count)
+void countAPair(int n,int m, int &count)
 {
   int a,b;
-  for(int a{0};a<=n;a++)
+  for(int a{0};a<=n+m;a++)
   {
-    for(int b{0};b<=n;b++)
+    for(int b{0};b<=n+m;b++)
     {
-      if(n==a*a+b)
-        count++;
-    }
-  }
-}
-void countBPair(int m, int &count)
-{
-  int a,b;
-  for(int a{0};a<=m;a++)
-  {
-    for(int b{0};b<=m;b++)
-    {
-      if(m==b*b+a)
+      if((n==a*a+b)&&(m==b*b+a))
         count++;
     }
   }
@@ -36,10 +24,9 @@ int main()
 
   cin>>n>>m;
   cin.ignore();
-  int countA{},countB{};
-  countAPair(n,countA);
-  countBPair(m,countB);
-  cout<<countA+countB<<endl;
+  int countA{};
+  countAPair(n,m,countA);
+  cout<<countA<<endl;
 
 
   return 0;
