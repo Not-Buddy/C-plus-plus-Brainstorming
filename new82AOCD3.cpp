@@ -6,41 +6,6 @@
 #include <algorithm>
 typedef unsigned long long ll;
 using namespace std;
-
-void vectormaker(std::vector <int>&vec1,std::string input)
-{
-  std::string digit{};
-  for(int i{0};i<input.size();i++)
-  {
-    while(std::isdigit(input[i]))
-    {
-      digit.push_back(input[i]);
-      i++;
-    }
-    vec1.push_back(std::stoi(digit));
-
-    digit.clear();
-  }
-}
-
-bool isAscending(const std::vector<int>& vec) {
-    for (size_t i = 1; i < vec.size(); ++i) {
-        if (vec[i] < vec[i - 1]) {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool isDescending(const std::vector<int>& vec) {
-    for (size_t i = 1; i < vec.size(); ++i) {
-        if (vec[i] > vec[i - 1]) {
-            return false;
-        }
-    }
-    return true;
-}
-
 int main()
 {
   std::ifstream inputFile("input.txt");
@@ -75,10 +40,13 @@ int main()
           }
           
           i++;
-          while(line[i]!=')')
+          if(!Num1.empty())
           {
-            Num2.push_back(line[i]);
-            i++;
+            while(line[i]!=')')
+            {
+              Num2.push_back(line[i]);
+              i++;
+            }
           }
           if(Num2.size()>3)
           {
@@ -90,9 +58,11 @@ int main()
             Num1.push_back('0');
             Num2.push_back('0');
           }
+            long Mult{};
             int n1=stoi(Num1);
             int n2=stoi(Num2);
-            Total=n1*n2;
+            Mult=n1*n2;
+            Total+=Mult;
           cout<<Num1<<" "<<Num2<<endl;
         }
       }
