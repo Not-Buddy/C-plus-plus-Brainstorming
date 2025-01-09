@@ -12,11 +12,10 @@ int RightLeft(std::vector<std::string> Input)
   int Count{};
   for(int i{0};i<Input.size();i++)
   {
-    for(int j{0};j<Input[i].size()-4;j++)
+    for(int j{0};j<Input[i].size()-3;j++)
     {
       if(Input[i].substr(j,4)=="XMAS")
       {
-        cout<<Input[i].substr(j,4);
         Count++;
       }
     }
@@ -24,11 +23,10 @@ int RightLeft(std::vector<std::string> Input)
   for(int i{0};i<Input.size();i++)
   {
     std::reverse(Input[i].begin(),Input[i].end());
-    for(int j{0};j<Input[i].size()-4;j++)
+    for(int j{0};j<Input[i].size()-3;j++)
     {
       if(Input[i].substr(j,4)=="XMAS")
       {
-        cout<<Input[i].substr(j,4);
         Count++;
       }
     }
@@ -40,7 +38,7 @@ int UpDown(std::vector<std::string> Input)
 {
   int Count{};
   
-  for(int i{0};i<Input.size()-4;i++)
+  for(int i{0};i<Input.size()-3;i++)
   {
     for(int j{0};j<Input[i].size();j++)
     {
@@ -52,7 +50,6 @@ int UpDown(std::vector<std::string> Input)
 
       if(CheckThis == "XMAS") 
       {
-        std::cout << CheckThis;
         Count++;
       }
 
@@ -60,12 +57,49 @@ int UpDown(std::vector<std::string> Input)
 
       if(CheckThis == "XMAS") 
       {
-        std::cout << CheckThis;
         Count++;
       }
     }
   }
   return Count;
+}
+
+int CrissCross(std::vector <std::string> Input)
+{
+  int Count{};
+  
+  for(int i{0};i<Input.size()-3;i++)
+  {
+    for(int j{0};j<Input[i].size()-3;j++)
+    {
+      std::string CheckThis{};
+          CheckThis.push_back(Input[i][j]);
+          CheckThis.push_back(Input[i+1][j+1]);
+          CheckThis.push_back(Input[i+2][j+2]);
+          CheckThis.push_back(Input[i+3][j+3]);
+          cout<<"RightDiag: "<<CheckThis<<endl;
+        if(CheckThis=="XMAS"||CheckThis=="SAMX")
+          Count++;
+    }
+  }
+
+  for(int i{0};i<Input.size()-3;i++)
+  {
+    for(int j{3};j<Input[i].size();j++)
+    {
+      std::string CheckThis{};
+          CheckThis.push_back(Input[i][j]);
+          CheckThis.push_back(Input[i+1][j-1]);
+          CheckThis.push_back(Input[i+2][j-2]);
+          CheckThis.push_back(Input[i+3][j-3]);
+          cout<<"LeftDiag: "<<CheckThis<<endl;
+        if(CheckThis=="XMAS"||CheckThis=="SAMX")
+          Count++;
+    }
+  }
+  return Count;
+
+
 }
 
 
@@ -86,9 +120,15 @@ int main()
     {
      Input.push_back(line); 
     }
-    Total=RightLeft(Input); 
-    Total+=UpDown(Input);
-    cout<<"RL: "<<Total<<endl;
+      int a = RightLeft(Input);
+      int b = UpDown(Input);
+      int c = CrissCross(Input);
+    Total= a + b + c;
+    cout<<"RightLeft: "<<a; 
+    cout<<" UpDown: "<<b;
+    cout<<" CrissCross: "<<c;
+    cout<<" Total: "<<Total<<endl;
+    cout<<endl;
     //176
     inputFile.close();
   return 0;
