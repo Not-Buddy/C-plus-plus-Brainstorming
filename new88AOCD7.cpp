@@ -3,9 +3,27 @@
 #include <cctype>
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include <algorithm>
 typedef unsigned long long ll;
 using namespace std;
+
+void rec(int i,long long sum,long long target, const vector <int>&v)
+{
+  if(i==(int)v.size())
+  {
+    if(sum==target)
+    {
+      ok=true;
+      return;
+    }
+  }
+  rec(i+1,sum+v[i],target,v,ok);
+  rec(i+1,sum*v[i],target,v,ok);
+}
+
+
+
 int main()
 {
   std::ifstream inputFile("input.txt");
@@ -16,59 +34,39 @@ int main()
         return 1;
     }
 
-    std::string line{};
-    long long Total{};
-    while (std::getline(inputFile,line)) 
+    std::string line;
+    std::vector<long long> test_val{};
+    std::vector<std::vector<long long>> eqns{};
+    int i{0};
+    while(std::getline(inputFile,line))
     {
-      for(int i{0};i<line.size()-4;i++)
+      long long test;
+      bool OK;
+      char Colon;
+      std::istringstream iss(line);
+      iss>>test>>Colon;
+      long long temp{};
+      cout<<test<<Colon;
+      test_val.push_back(test);
+      std::vector<long long> eqn{};
+      while(iss>>temp)
       {
-        string slice=line.substr(i,4);
-        if(slice=="mul(")
-        {
-          i=i+4;
-          //TakeFirstDigit till , TakeSecondDigit till )
-          std::string Num1{},Num2{};
-          while(line[i]!=',')
-          {
-            Num1.push_back(line[i]);
-            i++;
-          }
-          if(Num1.size()>3)
-          {
-            i=i-Num1.size()+1;
-            Num1.clear();
-          }
-          
-          i++;
-          if(!Num1.empty())
-          {
-            while(line[i]!=')')
-            {
-              Num2.push_back(line[i]);
-              i++;
-            }
-          }
-          if(Num2.size()>3)
-          {
-            i=i-Num2.size()+1;
-            Num2.clear();
-          }
-          if(Num1.empty()||Num2.empty())
-          {
-            Num1.push_back('0');
-            Num2.push_back('0');
-          }
-            long Mult{};
-            int n1=stoi(Num1);
-            int n2=stoi(Num2);
-            Mult=n1*n2;
-            Total+=Mult;
-          cout<<Num1<<" "<<Num2<<endl;
-        }
+        eqn.push_back(temp);
+        std::cout<<temp<<" ";
       }
+      eqns.push_back(eqn);
+      cout<<" "<<i<<endl;
+      i++;
+
+
+      for(int j{0};j<eqns[i].size();j++)
+      {
+        
+      }
+      
+
     }
-    cout<<"This is the total:- "<<Total<<endl;
-    //176
+
     inputFile.close();
   return 0;
 }
