@@ -1,120 +1,65 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <climits>
+#include <cmath>
 using namespace std;
 
-class BipartiteMatching {
-private:
-    vector<vector<int>> graph;
-    vector<int> match;
-    vector<bool> used;
-    int n, m;
+bool is_possible(int n, int m, int p, const vector<int>& unstoppables, 
+                const vector<int>& spells, int time) {
+    int i = 0, j = 0;  // Pointers for unstoppables and spells
     
-    bool dfs(int v) {
-        if (used[v]) return false;
-        used[v] = true;
-        
-        for (int to : graph[v]) {
-            if (match[to] == -1 || dfs(match[to])) {
-                match[to] = v;
-                return true;
-            }
+    while (i < n && j < m) {
+        if (abs(unstoppables[i] - spells[j]) + abs(spells[j] - p) <= time) {
+            i++;  // Assign this spell to this unstoppable
         }
-        return false;
+        j++;  // Move to the next spell
     }
     
-public:
-    BipartiteMatching(int n, int m) : n(n), m(m) {
-        graph.resize(n);
-        match.assign(m, -1);
-    }
-    
-    void addEdge(int u, int v) {
-        graph[u].push_back(v);
-    }
-    
-    void clearEdges() {
-        for (int i = 0; i < n; i++) {
-            graph[i].clear();
-        }
-        match.assign(m, -1);
-    }
-    
-    int maxMatching() {
-        int result = 0;
-        for (int v = 0; v < n; v++) {
-            used.assign(n, false);
-            if (dfs(v)) result++;
-        }
-        return result;
-    }
-};
-
-long long calculateTime(long long unstoppable, long long spell, long long museum) {
-    return abs(unstoppable - spell) + abs(spell - museum);
+    return i == n;  // All unstoppables must be matched
 }
 
-bool canFinishInTime(const vector<long long>& unstoppables, 
-                     const vector<long long>& spells, 
-                     long long museum, long long maxTime, int n) {
+int min_delivery_time(int n, int m, int p, vector<int>& unstoppables, vector<int>& spells) {
+    sort(unstoppables.begin(), unstoppables.end());
+    sort(spells.begin(), spells.end());
     
-    BipartiteMatching bm(n, spells.size());
+    // Binary search for minimum maximum time
+    int left = 0;
+    int right = max({*max_element(unstoppables.begin(), unstoppables.end()),
+                     *max_element(spells.begin(), spells.end()), 
+                     p}) * 2;
     
-    // Add edges for valid assignments within time limit
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < spells.size(); j++) {
-            if (calculateTime(unstoppables[i], spells[j], museum) <= maxTime) {
-                bm.addEdge(i, j);
-            }
-        }
-    }
-    
-    return bm.maxMatching() == n;
-}
-
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    
-    int n, m;
-    long long p;
-    cin >> n >> m >> p;
-    
-    vector<long long> unstoppables(n), spells(m);
-    
-    for (int i = 0; i < n; i++) {
-        cin >> unstoppables[i];
-    }
-    
-    for (int i = 0; i < m; i++) {
-        cin >> spells[i];
-    }
-    
-    // Binary search on the answer
-    long long left = 0, right = 0;
-    
-    // Calculate maximum possible time as upper bound
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            right = max(right, calculateTime(unstoppables[i], spells[j], p));
-        }
-    }
-    
-    long long answer = right;
-    
-    while (left <= right) {
-        long long mid = left + (right - left) / 2;
+    while (left < right) {
+        int mid = left + (right - left) / 2;
         
-        if (canFinishInTime(unstoppables, spells, p, mid, n)) {
-            answer = mid;
-            right = mid - 1;
+        if (is_possible(n, m, p, unstoppables, spells, mid)) {
+            right = mid;
         } else {
             left = mid + 1;
         }
     }
     
-    cout << answer << endl;
+    return left;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m, p;
+    cin >> n >> m >> p;
+    
+    vector<int> unstoppables(n);
+    for (int i = 0; i < n; i++) {
+        cin >> unstoppables[i];
+    }
+    
+    vector<int> spells(m);
+    for (int i = 0; i < m; i++) {
+        cin >> spells[i];
+    }
+    
+    int result = min_delivery_time(n, m, p, unstoppables, spells);
+    cout << result << endl;
     
     return 0;
 }
