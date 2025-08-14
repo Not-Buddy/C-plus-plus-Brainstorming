@@ -13,18 +13,10 @@ int main()
   cin>>testcases;
   for(int l{0};l<testcases;l++)
   {
-	int n{},j{},k{},mx{};
-	cin>>n>>j>>k;
-	std::vector<int> powers(n+1);
-	for(int i{1};i<=n;i++)
-	{
-		cin>>powers[i];
-		mx=max(mx,powers[i]);
-	}
-	cout<<(k>1||powers[j]==mx?"YES":"NO")<<'\n';
-
-
-
+	int n{};
+	cin>>n;
+	std::vector<int> arr(n);
+	for(int i{0};i<n;i++) cin>>arr[i];
 
 
   }
