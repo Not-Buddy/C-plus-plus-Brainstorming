@@ -3,6 +3,7 @@ public:
     void solveSudoku(vector<vector<char>>& board) {
         solve(board);	
     }
+
     bool solve(vector<vector<char>> &board)
     {
 	    for(int i{0};i<9;i++)
@@ -11,7 +12,7 @@ public:
 		    {
 			    if(board[i][j]=='.')
 			    {
-				    for(char c == '1';c<='9';c++)
+				    for(char c = '1';c<='9';c++)
 				    {
 					    if(isValid(board,i,j,c))
 					    {
@@ -26,6 +27,7 @@ public:
 	    }
 	    return true;
     }
+
     bool isValid(vector<vector<char>> &board,int row, int col, char c)
     {
 	    for(int i{0};i<9;i++)
